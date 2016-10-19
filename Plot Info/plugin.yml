@@ -1,0 +1,36 @@
+name: PlotInfo
+main: me.onno204.main.main
+version: 1.0
+prefix: PlotInfo
+depend: [WorldGuard, WorldEdit]
+description: >
+             PlotInfo by onno204.
+commands:
+  PlotInfo: 
+    description: Laat de informatie van een plot zien!
+    usage: Just Type It :D
+  PlotAdd: 
+    description: Voegt iemand toe aan een plot!
+    usage: Just Type It :D
+  PlotRemove: 
+    description: Verwijderd iemand van een plot!
+    usage: Just Type It :D
+  PlotHelp: 
+    description: Laat een menuutje zien met de commands!
+    usage: Just Type It :D
+  PlotClear: 
+    description: Verwijder IEDEREEN van je plot!
+    usage: Just Type It :D
+  MakelaarAdd: 
+    description: Voegt een eigenaar toe!
+    usage: Just Type It :D
+  MakelaarRemove: 
+    description: Verwijderd een eigenaar!
+    usage: Just Type It :D
+  MakelaarNieuw: 
+    description: Maakt iemand de nieuwe eigenaar!
+    usage: Just Type It :D
+  Koevoet: 
+    description: Maakt iemand de nieuwe eigenaar!
+    usage: Just Type It :D
+  
