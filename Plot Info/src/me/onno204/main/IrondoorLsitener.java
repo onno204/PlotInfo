@@ -49,7 +49,7 @@ public class IrondoorLsitener implements Listener {
 		if( (e.getAction() == Action.LEFT_CLICK_AIR ) || (e.getAction() == Action.RIGHT_CLICK_AIR) ) { return; }
 		
 		List<Material> DeniedMaterials = new ArrayList<Material>(); 
-
+		
 		DeniedMaterials.add(Material.LEVER);
 		DeniedMaterials.add(Material.ACACIA_DOOR);
 		DeniedMaterials.add(Material.BIRCH_DOOR);
