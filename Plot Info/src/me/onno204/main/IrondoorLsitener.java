@@ -19,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
@@ -40,12 +41,14 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 @SuppressWarnings("deprecation")
 public class IrondoorLsitener implements Listener {
 	HashMap<Player, Integer> AntiBlockBreak = new HashMap<Player, Integer>();
+	HashMap<Player, Integer> ItemStealTimer = new HashMap<Player, Integer>();
 	
 	
 	public static boolean Koevoet = false;
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void KlikBlock(org.bukkit.event.player.PlayerInteractEvent e) {
+		if(e.isCancelled()){ return; }
 		if( (e.getAction() == Action.LEFT_CLICK_AIR ) || (e.getAction() == Action.RIGHT_CLICK_AIR) ) { return; }
 		
 		List<Material> DeniedMaterials = new ArrayList<Material>(); 
@@ -138,8 +141,6 @@ public class IrondoorLsitener implements Listener {
 			int Current = ((int)System.currentTimeMillis());
 			int Last = AntiBlockBreak.get(e.getPlayer());
 			
-			
-			
 			if(Last >= Current-2000 ){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(main.title + "Je kan niet meteen iets openen nadat je een blockje breekt.");
@@ -187,7 +188,35 @@ public class IrondoorLsitener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
-	public void KlikBlock(org.bukkit.event.inventory.InventoryOpenEvent e) {
+	public void InventoryChange(org.bukkit.event.inventory.InventoryClickEvent e) {
+		Player p = (Player) e.getWhoClicked();
+		if (e.isCancelled()){ return; }
+		if((e.getAction() == InventoryAction.PICKUP_ALL) || (e.getAction() == InventoryAction.PICKUP_HALF) ||  (e.getAction() == InventoryAction.PICKUP_ONE) || (e.getAction() == InventoryAction.PICKUP_SOME)||  (e.getAction() == InventoryAction.PICKUP_ONE) || (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)||  (e.getAction() == InventoryAction.PICKUP_ONE) || (e.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD) || (e.getAction() == InventoryAction.HOTBAR_SWAP)){
+			if(p.getItemInHand().getType().equals(Material.GOLD_SWORD)){
+				if(ItemStealTimer.keySet().contains(p)){
+					
+					if(ItemStealTimer.keySet().contains(p)){
+						int Current = ((int)System.currentTimeMillis());
+						int Last = ItemStealTimer.get(p);
+						if(Last >= Current-120000 ){
+							e.setCancelled(true);
+							p.sendMessage(main.title + "Je kan maar 1 item stelen per minuut!");
+							return;
+						}
+					}
+					ItemStealTimer.remove(p);
+					ItemStealTimer.put(p, ((int)System.currentTimeMillis()) );
+				}else{
+					ItemStealTimer.put(p, ((int)System.currentTimeMillis()) );
+					return;
+				}
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+	public void InventoryEdit(org.bukkit.event.inventory.InventoryOpenEvent e) {
+		if(e.isCancelled()){ return; }
 		List<String> types = new ArrayList<String>(); 
 		types.add("CHEST");
 		types.add("DROPPER");

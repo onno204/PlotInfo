@@ -31,6 +31,6 @@ commands:
     description: Maakt iemand de nieuwe eigenaar!
     usage: Just Type It :D
   Koevoet: 
-    description: Maakt iemand de nieuwe eigenaar!
+    description: Zet koevoets aan of uit!
     usage: Just Type It :D
   
