@@ -175,11 +175,11 @@ public class IrondoorLsitener implements Listener {
 			    d.setOpen(!d.isOpen());
 			    s.setData((MaterialData)d);
 			    s.update();
-			}else { p.sendMessage(main.title + "Alleen eigenaren kunnen Iron Trapdoors openen!"); }
+			}else { p.sendMessage(main.title + "Alleen eigenaren kunnen Iron Trapdoors openen!"); return; }
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	public void BreakBlockEvent(org.bukkit.event.block.BlockBreakEvent e) {
 		if(AntiBlockBreak.keySet().contains(e.getPlayer())){
 			AntiBlockBreak.remove(e.getPlayer());
@@ -307,9 +307,6 @@ public class IrondoorLsitener implements Listener {
 		return false;
 		
 	}
-	
-	
-
 
 	public static WorldGuardPlugin getWorldGuard() { 
 	    Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard"); 
