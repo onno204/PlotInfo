@@ -131,7 +131,7 @@ public class IrondoorLsitener implements Listener {
 		
 		
 		Player p = e.getPlayer();
-		if(!(IsMember(p,block.getLocation()))){
+		if((!(IsMember(p,block.getLocation()))) && (!HasPerms(p)) ){
 			e.setCancelled(true);
 			p.sendMessage(main.title + "Alleen eigenaren en medewerkers van een plot kunnen deze actie uitvoeren!");
 			return;
@@ -141,7 +141,7 @@ public class IrondoorLsitener implements Listener {
 			int Current = ((int)System.currentTimeMillis());
 			int Last = AntiBlockBreak.get(e.getPlayer());
 			
-			if(Last >= Current-2000 ){
+			if(Last >= Current-1000 ){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(main.title + "Je kan niet meteen iets openen nadat je een blockje breekt.");
 				return;
@@ -230,9 +230,9 @@ public class IrondoorLsitener implements Listener {
 		//No Chest
 		if(!next){ return; }
 		Player p = (Player) e.getPlayer();
-		if(!IsMember(p, e.getPlayer().getLocation())){
+		if((!IsMember(p, e.getPlayer().getLocation())) && (!HasPerms(p))){
 			e.setCancelled(true);
-			p.sendMessage(main.title + "Alleen eigenaren en medewerkers van een plot kunnen Chests openen!");
+			//p.sendMessage(main.title + "Alleen eigenaren en medewerkers van een plot kunnen Chests openen!");
 		}
 	}
 	
@@ -270,7 +270,6 @@ public class IrondoorLsitener implements Listener {
 			return true;
 		}
 		
-		
 		return false;
 		
 	}
@@ -298,6 +297,17 @@ public class IrondoorLsitener implements Listener {
 		if(owners1.contains(p.getName())){
 			return true;
 		}
+		
+		if(p.hasPermission("PlotInfo.admin")){
+			p.sendMessage(main.title + "HAXER! STIEKEM PERMS GEBRUIKEN HE!");
+			return true;
+		}
+		
+		return false;
+		
+	}
+
+	public static boolean HasPerms(Player p){
 		
 		if(p.hasPermission("PlotInfo.admin")){
 			p.sendMessage(main.title + "HAXER! STIEKEM PERMS GEBRUIKEN HE!");
